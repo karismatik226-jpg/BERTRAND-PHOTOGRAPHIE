@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#C9A84C;--gold-light:#E8CC80;--gold-dim:#8a6c2f;
+  --black:#0A0A0A;--dark:#111111;--card:#1A1A1A;--card2:#222222;
+  --ivory:#F5F5F0;--muted:#9A9A90;--border:rgba(201,168,76,0.18);
+}
+body{font-family:'Inter',sans-serif;background:var(--black);color:var(--ivory);overflow-x:hidden;font-size:15px;line-height:1.6}
+.fd{font-family:'Cormorant Garamond',serif}
+.fm{font-family:'JetBrains Mono',monospace}
+.fs{font-family:'Great Vibes',cursive}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,10,0.95);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--border)}
+.logo-nav{display:flex;align-items:center;gap:0.75rem}
+.logo-b{width:38px;height:38px;border:1.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:600;color:var(--gold)}
+.logo-text{line-height:1.15}
+.logo-text .ln1{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;letter-spacing:0.22em;color:var(--ivory);text-transform:uppercase}
+.logo-text .ln2{font-size:0.52rem;letter-spacing:0.35em;color:var(--gold);text-transform:uppercase;font-weight:300}
+.nav-links{display:flex;gap:1.8rem;list-style:none;align-items:center}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;transition:color 0.2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-cta{background:transparent;border:0.5px solid var(--gold);color:var(--gold);padding:0.42rem 1.1rem;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif}
+.nav-cta:hover{background:var(--gold);color:var(--black)}
+
+.page{display:none}
+.page.active{display:block}
+
+/* HERO */
+.hero{height:100vh;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 60% 40%,#1a1208 0%,#0a0a0a 65%)}
+.hero-lines{position:absolute;inset:0;opacity:0.035;background-image:linear-gradient(var(--gold) 1px,transparent 1px),linear-gradient(90deg,var(--gold) 1px,transparent 1px);background-size:55px 55px}
+.hero-content{text-align:center;z-index:2;padding:0 1rem}
+
+/* LOGO SVG dans hero */
+.hero-logo{margin-bottom:2rem;display:flex;justify-content:center}
+.logo-svg-wrap{width:140px;height:140px}
+
+.hero-eyebrow{font-size:0.7rem;letter-spacing:0.5em;color:var(--gold);text-transform:uppercase;margin-bottom:1.2rem;font-weight:400}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,7vw,6rem);font-weight:300;line-height:1.0;letter-spacing:0.04em;margin-bottom:0.3rem}
+.hero-title .gold{color:var(--gold)}
+.hero-tag{font-size:0.72rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--muted);margin-bottom:0.6rem;font-weight:300}
+.hero-slogan{font-family:'Great Vibes',cursive;font-size:clamp(1.4rem,3vw,2.2rem);color:var(--gold);margin-bottom:2.5rem;opacity:0.9}
+.hero-divider{width:60px;height:0.5px;background:var(--gold);margin:0 auto 2.5rem;opacity:0.6}
+.hero-phones{display:flex;gap:1.5rem;justify-content:center;margin-bottom:2rem;flex-wrap:wrap}
+.hero-phone{font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--muted);display:flex;align-items:center;gap:0.4rem}
+.hero-phone span{color:var(--gold)}
+.hero-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:var(--gold);color:var(--black);border:none;padding:0.85rem 2rem;font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;font-family:'Inter',sans-serif;font-weight:500;transition:all 0.2s}
+.btn-primary:hover{background:var(--gold-light)}
+.btn-outline{background:transparent;color:var(--ivory);border:0.5px solid rgba(245,245,240,0.25);padding:0.85rem 2rem;font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;font-family:'Inter',sans-serif;font-weight:400;transition:all 0.2s}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold)}
+
+/* SECTIONS */
+.section{padding:5rem 2.5rem}
+.section-label{font-size:0.67rem;letter-spacing:0.45em;text-transform:uppercase;color:var(--gold);margin-bottom:0.7rem;display:flex;align-items:center;gap:0.7rem}
+.section-label::before{content:'';width:22px;height:0.5px;background:var(--gold)}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:300;line-height:1.15;margin-bottom:1rem}
+.section-sub{color:var(--muted);font-size:0.88rem;max-width:500px;line-height:1.75}
+
+/* SERVICES */
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:1px;margin-top:3rem;background:var(--border)}
+.service-card{background:var(--dark);padding:1.8rem 1.4rem;transition:background 0.25s;cursor:default}
+.service-card:hover{background:var(--card)}
+.service-icon{font-size:1.3rem;margin-bottom:0.9rem;opacity:0.75}
+.service-name{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;margin-bottom:0.35rem}
+.service-desc{font-size:0.78rem;color:var(--muted);line-height:1.6}
+
+/* GALLERY */
+.gallery-section{padding:5rem 2.5rem;background:var(--dark)}
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:2.5rem}
+.gallery-item{position:relative;overflow:hidden;cursor:pointer}
+.gallery-item:nth-child(1){grid-column:span 2;grid-row:span 2}
+.gallery-ph{display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;transition:transform 0.4s}
+.gallery-item:nth-child(1) .gallery-ph{aspect-ratio:1}
+.gallery-ph{aspect-ratio:1}
+.gallery-item:hover .gallery-ph{transform:scale(1.04)}
+.ph-box{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+.ph-label{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--muted);font-size:0.9rem}
+.gallery-overlay{position:absolute;inset:0;background:rgba(0,0,0,0);display:flex;align-items:flex-end;padding:1rem;transition:background 0.3s}
+.gallery-item:hover .gallery-overlay{background:rgba(0,0,0,0.52)}
+.gallery-tag{font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:transparent;transition:color 0.3s}
+.gallery-item:hover .gallery-tag{color:var(--gold)}
+
+/* TESTIMONIALS */
+.testi-wrap{padding:5rem 2.5rem;max-width:860px;margin:0 auto;text-align:center}
+.testi-quote{font-family:'Cormorant Garamond',serif;font-size:clamp(1.25rem,2.4vw,1.9rem);font-weight:300;font-style:italic;line-height:1.65;color:var(--ivory);margin:2rem 0 1.5rem}
+.testi-quote::before{content:'"';color:var(--gold);font-size:3rem;line-height:0;vertical-align:-0.55rem;margin-right:0.15rem}
+.testi-author{font-size:0.75rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted)}
+.testi-dots{display:flex;gap:0.5rem;justify-content:center;margin-top:1.4rem}
+.testi-dot{width:5px;height:5px;border-radius:50%;background:var(--muted);cursor:pointer;transition:background 0.2s}
+.testi-dot.active{background:var(--gold)}
+
+/* CONTACT */
+.contact-wrap{padding:5rem 2.5rem;background:var(--dark);display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.contact-info-row{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.9rem}
+.contact-icon{color:var(--gold);font-size:1rem;width:18px;text-align:center}
+.contact-text{font-size:0.85rem;color:var(--muted)}
+.contact-text a{color:var(--muted);text-decoration:none;transition:color 0.2s}
+.contact-text a:hover{color:var(--gold)}
+.contact-form{display:flex;flex-direction:column;gap:1rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-field{display:flex;flex-direction:column;gap:0.38rem}
+.form-label{font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted)}
+.form-input{background:transparent;border:0.5px solid rgba(245,245,240,0.1);color:var(--ivory);padding:0.72rem 1rem;font-family:'Inter',sans-serif;font-size:0.88rem;outline:none;transition:border-color 0.2s}
+.form-input:focus{border-color:var(--gold)}
+.form-input::placeholder{color:rgba(154,154,144,0.45)}
+textarea.form-input{resize:vertical;min-height:110px}
+
+/* ALBUM ACCESS */
+.access-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:80px 1.5rem 2rem}
+.access-card{max-width:480px;width:100%;background:var(--card);border:0.5px solid var(--border);padding:2.5rem}
+.access-tabs{display:flex;margin-bottom:2rem;border-bottom:0.5px solid var(--border)}
+.access-tab{flex:1;padding:0.7rem;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);cursor:pointer;background:transparent;border:none;transition:color 0.2s;font-family:'Inter',sans-serif;border-bottom:2px solid transparent;margin-bottom:-0.5px}
+.access-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.access-panel{display:none;flex-direction:column;gap:1rem}
+.access-panel.active{display:flex}
+.access-note{font-size:0.78rem;color:var(--muted)}
+
+/* ADMIN */
+#page-admin .admin-wrap{display:grid;grid-template-columns:210px 1fr;min-height:100vh;padding-top:64px}
+.admin-sidebar{background:var(--dark);border-right:0.5px solid var(--border);padding:1.8rem 1.3rem;position:sticky;top:64px;height:calc(100vh - 64px);overflow-y:auto}
+.admin-nav-title{font-size:0.63rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem;margin-top:1.4rem}
+.admin-nav-title:first-child{margin-top:0}
+.admin-nav-item{display:flex;align-items:center;gap:0.7rem;padding:0.55rem 0.7rem;font-size:0.83rem;color:var(--muted);cursor:pointer;transition:all 0.15s;border-radius:2px;margin-bottom:2px;border:none;background:none;width:100%;text-align:left;font-family:'Inter',sans-serif}
+.admin-nav-item:hover{color:var(--ivory);background:rgba(245,245,240,0.04)}
+.admin-nav-item.active{color:var(--gold);background:rgba(201,168,76,0.08)}
+.admin-main{padding:2rem;overflow-y:auto}
+.admin-title{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:300}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-bottom:1.5rem;background:var(--border)}
+.stat-card{background:var(--dark);padding:1.4rem}
+.stat-value{font-family:'Cormorant Garamond',serif;font-size:2.3rem;font-weight:300;color:var(--gold);line-height:1}
+.stat-label{font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-top:0.35rem}
+.stat-change{font-size:0.76rem;color:#4a9;margin-top:0.2rem}
+.albums-table{width:100%;border-collapse:collapse}
+.albums-table th{font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);padding:0.7rem 0.9rem;text-align:left;border-bottom:0.5px solid var(--border)}
+.albums-table td{padding:0.85rem 0.9rem;border-bottom:0.5px solid rgba(201,168,76,0.05);font-size:0.83rem;vertical-align:middle}
+.albums-table tr:hover td{background:rgba(255,255,255,0.012)}
+.badge{display:inline-flex;align-items:center;font-size:0.66rem;letter-spacing:0.07em;text-transform:uppercase;padding:0.22rem 0.55rem;border-radius:2px}
+.badge-pub{background:rgba(74,170,100,0.12);color:#4aa}
+.badge-priv{background:rgba(201,168,76,0.1);color:var(--gold)}
+.badge-pass{background:rgba(160,120,200,0.12);color:#a87cd8}
+.badge-exp{background:rgba(200,80,80,0.12);color:#c86060}
+.action-btn{background:none;border:none;color:var(--muted);cursor:pointer;padding:0.22rem 0.38rem;transition:color 0.15s}
+.action-btn:hover{color:var(--gold)}
+.progress-bar{height:3px;background:var(--card2);border-radius:2px;overflow:hidden;margin-top:0.35rem}
+.progress-fill{height:100%;background:var(--gold)}
+.search-bar{display:flex;align-items:center;gap:0.5rem;background:var(--dark);border:0.5px solid var(--border);padding:0.48rem 0.9rem;flex:1;max-width:300px}
+.search-bar input{background:transparent;border:none;color:var(--ivory);font-size:0.83rem;outline:none;width:100%;font-family:'Inter',sans-serif}
+.search-bar input::placeholder{color:var(--muted)}
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.3rem;gap:1rem;flex-wrap:wrap}
+
+/* ALBUM CLIENT */
+#page-album .album-view{padding-top:80px}
+.album-hero{padding:2.5rem 2.5rem 1.8rem;border-bottom:0.5px solid var(--border)}
+.album-meta{display:flex;align-items:center;gap:1rem;margin-top:0.75rem;flex-wrap:wrap}
+.album-actions{display:flex;gap:0.75rem;margin-top:1.4rem;flex-wrap:wrap}
+.photos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:2px;padding:2px}
+.photo-item{position:relative;cursor:pointer;overflow:hidden;background:var(--card)}
+.photo-ph{aspect-ratio:3/4;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--muted);font-size:0.82rem;transition:transform 0.3s}
+.photo-item:hover .photo-ph{transform:scale(1.04)}
+.photo-overlay{position:absolute;inset:0;background:rgba(0,0,0,0);display:flex;align-items:center;justify-content:center;gap:0.75rem;opacity:0;transition:all 0.25s}
+.photo-item:hover .photo-overlay{background:rgba(0,0,0,0.55);opacity:1}
+.photo-action{background:rgba(10,10,10,0.8);border:0.5px solid rgba(245,245,240,0.2);color:var(--ivory);width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.78rem;transition:all 0.15s}
+.photo-action:hover{border-color:var(--gold);color:var(--gold)}
+.photo-select{position:absolute;top:8px;left:8px;width:18px;height:18px;border:1.5px solid rgba(245,245,240,0.45);background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s;font-size:0.65rem;color:transparent}
+.photo-item:hover .photo-select{border-color:var(--gold)}
+.photo-select.checked{background:var(--gold);border-color:var(--gold);color:var(--black)}
+.dl-bar{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:0.5px solid var(--border);padding:1rem 2.5rem;display:flex;align-items:center;gap:1rem;z-index:50;transform:translateY(100%);transition:transform 0.3s}
+.dl-bar.visible{transform:translateY(0)}
+
+/* LIGHTBOX */
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,0.96);z-index:200;display:none;align-items:center;justify-content:center;flex-direction:column}
+.lightbox.open{display:flex}
+.lb-img{min-width:380px;min-height:260px;max-width:88vw;max-height:75vh;background:var(--card2);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--muted);font-size:1.1rem}
+.lb-close{position:absolute;top:1.4rem;right:1.4rem;background:none;border:none;color:var(--muted);font-size:1rem;cursor:pointer;transition:color 0.2s;letter-spacing:0.1em}
+.lb-close:hover{color:var(--gold)}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);background:none;border:0.5px solid rgba(245,245,240,0.15);color:var(--muted);width:42px;height:42px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s}
+.lb-nav:hover{border-color:var(--gold);color:var(--gold)}
+.lb-prev{left:1.5rem}
+.lb-next{right:1.5rem}
+.lb-info{margin-top:1.5rem;text-align:center}
+.lb-actions{display:flex;gap:0.75rem;margin-top:0.75rem;justify-content:center}
+
+/* LOGIN */
+#page-login{display:flex;align-items:center;justify-content:center;min-height:100vh}
+.login-card{background:var(--dark);border:0.5px solid var(--border);padding:2.8rem;width:100%;max-width:390px}
+.login-form{display:flex;flex-direction:column;gap:1.1rem}
+
+/* SOCIALS */
+.socials-bar{padding:2.5rem 2.5rem;display:flex;align-items:center;justify-content:center;gap:1.5rem;border-top:0.5px solid var(--border);flex-wrap:wrap}
+.social-link{display:flex;align-items:center;gap:0.45rem;color:var(--muted);text-decoration:none;font-size:0.77rem;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s}
+.social-link:hover{color:var(--gold)}
+
+/* TOAST */
+.toast{position:fixed;bottom:4.5rem;left:50%;transform:translateX(-50%) translateY(20px);background:var(--card2);border:0.5px solid var(--border);padding:0.7rem 1.4rem;font-size:0.8rem;color:var(--ivory);opacity:0;transition:all 0.3s;pointer-events:none;white-space:nowrap;z-index:300}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+footer{text-align:center;padding:1.8rem 2.5rem;border-top:0.5px solid var(--border);font-size:0.73rem;color:var(--muted);letter-spacing:0.05em}
+
+@media(max-width:768px){
+  nav{padding:0 1rem}
+  .nav-links{display:none}
+  .section,.gallery-section,.contact-wrap,.socials-bar{padding:3rem 1.2rem}
+  .gallery-grid{grid-template-columns:1fr 1fr}
+  .gallery-item:nth-child(1){grid-column:span 2;grid-row:span 1}
+  .contact-wrap{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+  .stat-grid{grid-template-columns:repeat(2,1fr)}
+  #page-admin .admin-wrap{grid-template-columns:1fr}
+  .admin-sidebar{display:none}
+  .photos-grid{grid-template-columns:repeat(2,1fr)}
+  .lb-img{min-width:260px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo-nav" style="cursor:pointer" onclick="navigate('home')">
+    <div class="logo-b">B</div>
+    <div class="logo-text">
+      <div class="ln1">Bertrand</div>
+      <div class="ln2">Photographie</div>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#" onclick="navigate('home')">Accueil</a></li>
+    <li><a href="#" onclick="navigate('home','services')">Services</a></li>
+    <li><a href="#" onclick="navigate('home','gallery')">Galerie</a></li>
+    <li><a href="#" onclick="navigate('home','contact')">Contact</a></li>
+  </ul>
+  <div style="display:flex;gap:0.6rem;align-items:center">
+    <button class="nav-cta" onclick="navigate('access')">Mon album</button>
+    <button class="nav-cta" onclick="navigate('login')" style="border-color:rgba(245,245,240,0.18);color:var(--muted)">Admin</button>
+  </div>
+</nav>
+
+<!-- ============ HOME ============ -->
+<div id="page-home" class="page active">
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+  <div class="hero-content">
+
+    <!-- LOGO SVG recréé fidèle à l'original -->
+    <div class="hero-logo">
+      <svg width="130" height="130" viewBox="0 0 130 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Silhouette appareil photo -->
+        <path d="M20 52 Q20 42 30 42 L40 42 L44 34 L86 34 L90 42 L100 42 Q110 42 110 52 L110 92 Q110 100 102 100 L28 100 Q20 100 20 92 Z" stroke="#C9A84C" stroke-width="1.8" fill="none"/>
+        <path d="M38 38 L42 30 L88 30 L92 38" stroke="#C9A84C" stroke-width="1.2" fill="none"/>
+        <!-- Bosse haut -->
+        <path d="M52 34 Q52 28 58 26 L72 26 Q78 28 78 34" stroke="#C9A84C" stroke-width="1.2" fill="none"/>
+        <!-- Cercle lentille -->
+        <circle cx="65" cy="69" r="22" stroke="#C9A84C" stroke-width="1.8" fill="none"/>
+        <circle cx="65" cy="69" r="16" stroke="#C9A84C" stroke-width="0.8" fill="none" opacity="0.5"/>
+        <!-- Lettre B -->
+        <text x="65" y="77" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="22" font-weight="600" fill="#C9A84C">B</text>
+        <!-- Flash -->
+        <rect x="24" y="44" width="8" height="5" rx="1" fill="#C9A84C" opacity="0.7"/>
+      </svg>
+    </div>
+
+    <p class="hero-eyebrow">Photographe Professionnel — Akoupe, Côte d'Ivoire</p>
+    <h1 class="hero-title">BERTRAND<br><span class="gold">PHOTOGRAPHIE</span></h1>
+    <p class="hero-tag">Bertrand Kocoi</p>
+    <p class="hero-slogan">Capturer vos plus beaux moments</p>
+    <div class="hero-divider"></div>
+    <div class="hero-phones">
+      <span class="hero-phone"><span>📞</span> +225 07 79 58 89 52</span>
+      <span class="hero-phone"><span>📞</span> +225 01 71 40 04 95</span>
+    </div>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="navigate('home','contact')">Nous contacter</button>
+      <button class="btn-outline" onclick="navigate('access')">Accéder à mon album</button>
+    </div>
+  </div>
+</section>
+
+<!-- À propos -->
+<section class="section" id="about">
+  <p class="section-label">À propos</p>
+  <h2 class="section-title fd">L'art de figer<br>l'instant précieux</h2>
+  <p class="section-sub">Bertrand Kocoi, photographe professionnel basé à Akoupe en Côte d'Ivoire, met son œil artistique et son savoir-faire au service de vos plus belles occasions. Chaque cliché est le fruit d'une attention particulière portée à la lumière, à l'émotion et aux détails qui font la différence.</p>
+</section>
+
+<!-- Services -->
+<section class="section" id="services" style="padding-top:0">
+  <p class="section-label">Nos services</p>
+  <h2 class="section-title fd">Des prestations<br>sur mesure</h2>
+  <div class="services-grid">
+    <div class="service-card"><div class="service-icon">💍</div><div class="service-name fd">Mariage</div><div class="service-desc">Votre jour J immortalisé avec élégance et émotion.</div></div>
+    <div class="service-card"><div class="service-icon">✝️</div><div class="service-name fd">Baptême</div><div class="service-desc">Les premiers souvenirs d'une vie qui commence.</div></div>
+    <div class="service-card"><div class="service-icon">🎂</div><div class="service-name fd">Anniversaire</div><div class="service-desc">Célébrations et joies capturées pour l'éternité.</div></div>
+    <div class="service-card"><div class="service-icon">🎭</div><div class="service-name fd">Portrait</div><div class="service-desc">Votre personnalité révélée par la lumière.</div></div>
+    <div class="service-card"><div class="service-icon">📸</div><div class="service-name fd">Événementiel</div><div class="service-desc">Conférences, galas et soirées d'entreprise.</div></div>
+    <div class="service-card"><div class="service-icon">💼</div><div class="service-name fd">Shooting Pro</div><div class="service-desc">Photos professionnelles pour votre image de marque.</div></div>
+    <div class="service-card"><div class="service-icon">👨‍👩‍👧‍👦</div><div class="service-name fd">Photos de famille</div><div class="service-desc">Des instants complices en toute authenticité.</div></div>
+  </div>
+</section>
+
+<!-- Galerie -->
+<section class="gallery-section" id="gallery">
+  <p class="section-label">Galerie</p>
+  <h2 class="section-title fd">Nos réalisations</h2>
+  <div class="gallery-grid">
+    <div class="gallery-item" onclick="openLightbox('Mariage')"><div class="gallery-ph"><div class="ph-box" style="background:linear-gradient(135deg,#1a1208,#2a1c0a)"><p class="ph-label">Mariage</p></div></div><div class="gallery-overlay"><span class="gallery-tag">Voir</span></div></div>
+    <div class="gallery-item" onclick="openLightbox('Portrait')"><div class="gallery-ph"><div class="ph-box" style="background:linear-gradient(135deg,#121a18,#0a1210)"><p class="ph-label">Portrait</p></div></div><div class="gallery-overlay"><span class="gallery-tag">Voir</span></div></div>
+    <div class="gallery-item" onclick="openLightbox('Événementiel')"><div class="gallery-ph"><div class="ph-box" style="background:linear-gradient(135deg,#1a1218,#120a18)"><p class="ph-label">Événementiel</p></div></div><div class="gallery-overlay"><span class="gallery-tag">Voir</span></div></div>
+    <div class="gallery-item" onclick="openLightbox('Baptême')"><div class="gallery-ph"><div class="ph-box" style="background:linear-gradient(135deg,#0a1218,#0a1220)"><p class="ph-label">Baptême</p></div></div><div class="gallery-overlay"><span class="gallery-tag">Voir</span></div></div>
+    <div class="gallery-item" onclick="openLightbox('Famille')"><div class="gallery-ph"><div class="ph-box" style="background:linear-gradient(135deg,#181210,#201a10)"><p class="ph-label">Famille</p></div></div><div class="gallery-overlay"><span class="gallery-tag">Voir</span></div></div>
+  </div>
+</section>
+
+<!-- Témoignages -->
+<section style="padding:5rem 2.5rem;background:var(--dark)">
+  <div class="testi-wrap" style="padding:0">
+    <p class="section-label" style="justify-content:center">Témoignages</p>
+    <h2 class="section-title fd" style="text-align:center">Ce que disent<br>nos clients</h2>
+    <p class="testi-quote" id="testi-text">Les photos de notre mariage sont absolument magnifiques. Bertrand a su capturer chaque émotion avec une sensibilité rare. Nous recommandons sans hésitation !</p>
+    <p class="testi-author" id="testi-author">— Aminata & Kouassi, Mariage 2024</p>
+    <div class="testi-dots">
+      <div class="testi-dot active" onclick="setTesti(0)"></div>
+      <div class="testi-dot" onclick="setTesti(1)"></div>
+      <div class="testi-dot" onclick="setTesti(2)"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="contact-wrap" id="contact">
+  <div>
+    <p class="section-label">Contact</p>
+    <h2 class="section-title fd">Parlons de<br>votre projet</h2>
+    <p class="section-sub" style="margin-bottom:2rem">Disponible pour tous vos projets photographiques à Akoupe et partout en Côte d'Ivoire.</p>
+
+    <div class="contact-info-row"><span class="contact-icon">👤</span><span class="contact-text">Bertrand Kocoi</span></div>
+    <div class="contact-info-row"><span class="contact-icon">📞</span><span class="contact-text"><a href="tel:+2250779588952">+225 07 79 58 89 52</a></span></div>
+    <div class="contact-info-row"><span class="contact-icon">📞</span><span class="contact-text"><a href="tel:+2250171400495">+225 01 71 40 04 95</a></span></div>
+    <div class="contact-info-row"><span class="contact-icon">✉</span><span class="contact-text"><a href="mailto:Kycbertrand@yahoo.com">Kycbertrand@yahoo.com</a></span></div>
+    <div class="contact-info-row"><span class="contact-icon">📍</span><span class="contact-text">Akoupe, Côte d'Ivoire</span></div>
+
+    <div style="margin-top:1.5rem;padding:1rem;background:var(--card);border:0.5px solid var(--border)">
+      <p style="font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem">WhatsApp</p>
+      <p style="font-size:0.82rem;color:var(--muted);margin-bottom:0.75rem">Contactez-nous directement sur WhatsApp</p>
+      <div style="display:flex;gap:0.75rem;flex-wrap:wrap">
+        <button class="btn-outline" onclick="window.open('https://wa.me/2250779588952','_blank')" style="font-size:0.75rem;padding:0.5rem 1rem">💬 07 79 58 89 52</button>
+        <button class="btn-outline" onclick="window.open('https://wa.me/2250171400495','_blank')" style="font-size:0.75rem;padding:0.5rem 1rem">💬 01 71 40 04 95</button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="contact-form">
+      <div class="form-row">
+        <div class="form-field"><label class="form-label">Prénom</label><input class="form-input" type="text" placeholder="Votre prénom"></div>
+        <div class="form-field"><label class="form-label">Nom</label><input class="form-input" type="text" placeholder="Votre nom"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-field"><label class="form-label">Téléphone</label><input class="form-input" type="tel" placeholder="+225 00 00 00 00 00"></div>
+        <div class="form-field"><label class="form-label">Email</label><input class="form-input" type="email" placeholder="votre@email.com"></div>
+      </div>
+      <div class="form-field"><label class="form-label">Objet</label><input class="form-input" type="text" placeholder="Ex: Réservation mariage"></div>
+      <div class="form-field"><label class="form-label">Message</label><textarea class="form-input" placeholder="Décrivez votre projet..."></textarea></div>
+      <button class="btn-primary" onclick="showToast('✓ Message envoyé à Kycbertrand@yahoo.com !')">Envoyer le message</button>
+    </div>
+  </div>
+</section>
+
+<!-- Réseaux sociaux -->
+<div class="socials-bar">
+  <a href="https://web.facebook.com/Btphot" target="_blank" class="social-link">👥 Facebook — BtPhot</a>
+  <a href="https://wa.me/2250779588952" target="_blank" class="social-link">💬 WhatsApp</a>
+  <a href="mailto:Kycbertrand@yahoo.com" class="social-link">✉ Email</a>
+</div>
+
+<footer>
+  © 2024 Bertrand Photographie — Bertrand Kocoi — Akoupe, Côte d'Ivoire<br>
+  <span style="color:var(--gold)">Kycbertrand@yahoo.com</span> · +225 07 79 58 89 52 · +225 01 71 40 04 95
+</footer>
+</div>
+
+<!-- ============ ALBUM ACCESS ============ -->
+<div id="page-access" class="page">
+  <div class="access-wrap">
+    <div style="width:100%;max-width:520px">
+      <div style="text-align:center;margin-bottom:2rem">
+        <div style="display:flex;justify-content:center;margin-bottom:1rem">
+          <svg width="70" height="70" viewBox="0 0 130 130" fill="none"><path d="M20 52 Q20 42 30 42 L40 42 L44 34 L86 34 L90 42 L100 42 Q110 42 110 52 L110 92 Q110 100 102 100 L28 100 Q20 100 20 92 Z" stroke="#C9A84C" stroke-width="2" fill="none"/><circle cx="65" cy="69" r="22" stroke="#C9A84C" stroke-width="2" fill="none"/><text x="65" y="77" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="22" font-weight="600" fill="#C9A84C">B</text></svg>
+        </div>
+        <h2 class="fd" style="font-size:1.8rem;font-weight:300;margin-bottom:0.25rem">Accéder à mon album</h2>
+        <p style="font-size:0.78rem;color:var(--muted)">Bertrand Photographie — Akoupe</p>
+      </div>
+      <div class="access-card">
+        <div class="access-tabs">
+          <button class="access-tab active" onclick="switchTab('name')">Par nom</button>
+          <button class="access-tab" onclick="switchTab('code')">Code d'accès</button>
+          <button class="access-tab" onclick="switchTab('dossier')">N° dossier</button>
+        </div>
+        <div id="tab-name" class="access-panel active">
+          <div class="form-field"><label class="form-label">Votre nom complet</label><input class="form-input" type="text" placeholder="Ex: Aminata Coulibaly"></div>
+          <div class="form-field"><label class="form-label">Mot de passe (si protégé)</label><input class="form-input" type="password" placeholder="••••••••"></div>
+          <button class="btn-primary" onclick="navigate('album')" style="width:100%">Rechercher mon album</button>
+          <p class="access-note">Nom utilisé lors de votre séance avec Bertrand Kocoi.</p>
+        </div>
+        <div id="tab-code" class="access-panel">
+          <div class="form-field"><label class="form-label">Code d'accès</label><input class="form-input fm" type="text" placeholder="Ex: BP-2024-XXXX" style="letter-spacing:0.1em"></div>
+          <button class="btn-primary" onclick="navigate('album')" style="width:100%">Accéder à mon album</button>
+          <p class="access-note">Code transmis par WhatsApp ou email par Bertrand.</p>
+        </div>
+        <div id="tab-dossier" class="access-panel">
+          <div class="form-field"><label class="form-label">Numéro de dossier</label><input class="form-input fm" type="text" placeholder="Ex: 00247" style="letter-spacing:0.1em"></div>
+          <button class="btn-primary" onclick="navigate('album')" style="width:100%">Trouver mon album</button>
+          <p class="access-note">Numéro figurant sur votre bon de commande.</p>
+        </div>
+      </div>
+      <p style="text-align:center;margin-top:1.4rem;font-size:0.8rem;color:var(--muted)">
+        Besoin d'aide ? 
+        <a href="https://wa.me/2250779588952" target="_blank" style="color:var(--gold);text-decoration:none">WhatsApp Bertrand</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ALBUM CLIENT ============ -->
+<div id="page-album" class="page">
+  <div class="album-view">
+    <div class="album-hero">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+        <div>
+          <p style="font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:0.35rem">Bertrand Photographie — Album N° 00247</p>
+          <h1 class="fd" style="font-size:2rem;font-weight:300">Mariage Aminata & Kouassi</h1>
+          <div class="album-meta">
+            <span style="font-size:0.78rem;color:var(--muted)">48 photos · 14 décembre 2024</span>
+            <span class="badge badge-priv">🔒 Privé</span>
+            <span style="font-size:0.75rem;color:var(--muted)">Expire le 14 janv. 2025</span>
+          </div>
+        </div>
+        <button class="btn-outline" onclick="navigate('access')" style="font-size:0.75rem;padding:0.5rem 1.1rem">← Retour</button>
+      </div>
+      <div class="album-actions">
+        <button class="btn-primary" onclick="showToast('✓ Téléchargement ZIP en cours...')">⬇ Tout télécharger (ZIP)</button>
+        <button class="btn-outline" onclick="shareAlbum()">↗ Partager</button>
+        <button class="btn-outline" onclick="toggleSelect()" id="select-btn">☑ Sélectionner</button>
+      </div>
+    </div>
+    <div class="photos-grid" id="photos-grid"></div>
+  </div>
+  <div class="dl-bar" id="dl-bar">
+    <span style="font-size:0.83rem;color:var(--muted)"><span id="dl-count">0</span> photo(s) sélectionnée(s)</span>
+    <button class="btn-primary" onclick="showToast('✓ Téléchargement...')">⬇ Télécharger</button>
+    <button class="btn-outline" onclick="clearSelection()" style="font-size:0.78rem;padding:0.5rem 0.9rem">Annuler</button>
+  </div>
+</div>
+
+<!-- ============ LOGIN ============ -->
+<div id="page-login" class="page">
+  <div class="login-card">
+    <div style="text-align:center;margin-bottom:2rem">
+      <svg width="55" height="55" viewBox="0 0 130 130" fill="none" style="margin:0 auto 0.75rem"><path d="M20 52 Q20 42 30 42 L40 42 L44 34 L86 34 L90 42 L100 42 Q110 42 110 52 L110 92 Q110 100 102 100 L28 100 Q20 100 20 92 Z" stroke="#C9A84C" stroke-width="2.5" fill="none"/><circle cx="65" cy="69" r="22" stroke="#C9A84C" stroke-width="2.5" fill="none"/><text x="65" y="77" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="24" font-weight="600" fill="#C9A84C">B</text></svg>
+      <h2 class="fd" style="font-size:1.5rem;font-weight:300">Espace Administrateur</h2>
+      <p style="font-size:0.76rem;color:var(--muted);margin-top:0.25rem">Bertrand Photographie</p>
+    </div>
+    <div class="login-form">
+      <div class="form-field"><label class="form-label">Email</label><input class="form-input" type="email" value="Kycbertrand@yahoo.com"></div>
+      <div class="form-field"><label class="form-label">Mot de passe</label><input class="form-input" type="password" value="••••••••"></div>
+      <div style="display:flex;justify-content:space-between;font-size:0.78rem;color:var(--muted)">
+        <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer"><input type="checkbox" checked> Se souvenir</label>
+        <a href="#" style="color:var(--gold);text-decoration:none">Mot de passe oublié ?</a>
+      </div>
+      <button class="btn-primary" onclick="navigate('admin')">Se connecter</button>
+    </div>
+    <p style="text-align:center;margin-top:1.4rem;font-size:0.77rem"><a href="#" onclick="navigate('home')" style="color:var(--muted);text-decoration:none">← Retour au site</a></p>
+  </div>
+</div>
+
+<!-- ============ ADMIN ============ -->
+<div id="page-admin" class="page">
+  <div class="admin-wrap">
+    <div class="admin-sidebar">
+      <div style="margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:0.5px solid var(--border)">
+        <p style="font-size:0.7rem;color:var(--muted);letter-spacing:0.05em">Connecté en tant que</p>
+        <p style="font-size:0.85rem;font-weight:500;color:var(--ivory);margin-top:0.2rem">Bertrand Kocoi</p>
+        <p style="font-size:0.72rem;color:var(--gold)">Administrateur</p>
+      </div>
+      <div class="admin-nav-title">Tableau de bord</div>
+      <button class="admin-nav-item active" onclick="adminSection('dashboard')">📊 Vue d'ensemble</button>
+      <button class="admin-nav-item" onclick="adminSection('albums')">📁 Albums</button>
+      <button class="admin-nav-item" onclick="adminSection('clients')">👥 Clients</button>
+      <div class="admin-nav-title">Gestion</div>
+      <button class="admin-nav-item" onclick="adminSection('upload')">⬆ Importer des photos</button>
+      <button class="admin-nav-item" onclick="adminSection('stats')">📈 Statistiques</button>
+      <button class="admin-nav-item" onclick="adminSection('messages')">✉ Messages <span style="margin-left:auto;background:var(--gold);color:var(--black);font-size:0.62rem;padding:1px 5px;border-radius:8px">3</span></button>
+      <div class="admin-nav-title">Système</div>
+      <button class="admin-nav-item" onclick="adminSection('settings')">⚙ Paramètres</button>
+      <button class="admin-nav-item" onclick="navigate('home')">↗ Voir le site</button>
+      <button class="admin-nav-item" onclick="navigate('login')" style="color:#c86060;margin-top:0.5rem">🔓 Déconnexion</button>
+    </div>
+    <div class="admin-main" id="admin-main">
+
+      <!-- DASHBOARD -->
+      <div id="admin-dashboard">
+        <div style="margin-bottom:1.5rem">
+          <h1 class="admin-title fd">Tableau de bord</h1>
+          <p style="font-size:0.78rem;color:var(--muted);margin-top:0.2rem">Lundi 15 juin 2026 — Bonjour, Bertrand 👋</p>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card"><div class="stat-value">47</div><div class="stat-label">Albums actifs</div><div class="stat-change">↑ +3 ce mois</div></div>
+          <div class="stat-card"><div class="stat-value">1 284</div><div class="stat-label">Téléchargements</div><div class="stat-change">↑ +128 semaine</div></div>
+          <div class="stat-card"><div class="stat-value">312</div><div class="stat-label">Clients</div><div class="stat-change">↑ +12 ce mois</div></div>
+          <div class="stat-card"><div class="stat-value">8,4 Go</div><div class="stat-label">Stockage</div><div class="stat-change" style="color:var(--muted)">65% utilisé</div></div>
+        </div>
+        <div style="background:var(--dark);padding:1.4rem;margin-bottom:1px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+            <h3 style="font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)">Albums récents</h3>
+            <button class="btn-outline" onclick="adminSection('albums')" style="font-size:0.7rem;padding:0.32rem 0.8rem">Voir tout</button>
+          </div>
+          <table class="albums-table"><thead><tr><th>Album</th><th>Client</th><th>Photos</th><th>Téléch.</th><th>Statut</th><th></th></tr></thead>
+          <tbody id="adm-prev"></tbody></table>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)">
+          <div style="background:var(--dark);padding:1.4rem">
+            <h3 style="font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem">Stockage</h3>
+            <div style="margin-bottom:0.4rem;display:flex;justify-content:space-between"><span style="font-size:0.8rem">Photos originales</span><span style="font-size:0.8rem;color:var(--gold)">6,2 Go</span></div><div class="progress-bar"><div class="progress-fill" style="width:48%"></div></div>
+            <div style="margin:0.7rem 0 0.4rem;display:flex;justify-content:space-between"><span style="font-size:0.8rem">Miniatures</span><span style="font-size:0.8rem;color:var(--gold)">1,8 Go</span></div><div class="progress-bar"><div class="progress-fill" style="width:14%"></div></div>
+            <div style="margin:0.7rem 0 0.4rem;display:flex;justify-content:space-between"><span style="font-size:0.8rem">Archives ZIP</span><span style="font-size:0.8rem;color:var(--gold)">0,4 Go</span></div><div class="progress-bar"><div class="progress-fill" style="width:3%"></div></div>
+          </div>
+          <div style="background:var(--dark);padding:1.4rem">
+            <h3 style="font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem">Messages récents</h3>
+            <div style="display:flex;flex-direction:column;gap:0.7rem">
+              <div style="padding:0.7rem;background:var(--card2);border-left:2px solid var(--gold)"><p style="font-size:0.82rem;font-weight:500">Mariam Touré</p><p style="font-size:0.77rem;color:var(--muted)">Séance mariage pour mars...</p><p style="font-size:0.68rem;color:var(--muted);margin-top:0.2rem">Il y a 2h</p></div>
+              <div style="padding:0.7rem;background:var(--card2)"><p style="font-size:0.82rem;font-weight:500">Jean-Marc Bley</p><p style="font-size:0.77rem;color:var(--muted)">Photos d'entreprise urgentes...</p><p style="font-size:0.68rem;color:var(--muted);margin-top:0.2rem">Il y a 5h</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ALBUMS -->
+      <div id="admin-albums" style="display:none">
+        <div style="margin-bottom:1.4rem"><h1 class="admin-title fd">Gestion des albums</h1></div>
+        <div class="panel-header">
+          <div class="search-bar"><span style="color:var(--muted)">🔍</span><input type="text" placeholder="Rechercher..."></div>
+          <button class="btn-primary" onclick="showToast('✓ Nouvel album créé !')">+ Nouvel album</button>
+        </div>
+        <table class="albums-table" style="background:var(--dark);width:100%">
+          <thead><tr><th>Album</th><th>Client</th><th>Photos</th><th>Statut</th><th>Expiration</th><th>Téléch.</th><th>Actions</th></tr></thead>
+          <tbody id="adm-full"></tbody>
+        </table>
+      </div>
+
+      <!-- CLIENTS -->
+      <div id="admin-clients" style="display:none">
+        <div style="margin-bottom:1.4rem"><h1 class="admin-title fd">Clients</h1></div>
+        <div class="panel-header">
+          <div class="search-bar"><span style="color:var(--muted)">🔍</span><input type="text" placeholder="Rechercher un client..."></div>
+          <button class="btn-primary" onclick="showToast('✓ Client ajouté !')">+ Nouveau client</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1px;background:var(--border)" id="clients-grid"></div>
+      </div>
+
+      <!-- UPLOAD -->
+      <div id="admin-upload" style="display:none">
+        <div style="margin-bottom:1.4rem"><h1 class="admin-title fd">Importer des photos</h1></div>
+        <div style="background:var(--dark);padding:2rem;text-align:center;border:1.5px dashed rgba(201,168,76,0.28);margin-bottom:1rem">
+          <div style="font-size:2.2rem;margin-bottom:0.8rem;opacity:0.5">⬆</div>
+          <p class="fd" style="font-size:1.25rem;margin-bottom:0.4rem">Glissez vos photos ici</p>
+          <p style="font-size:0.78rem;color:var(--muted);margin-bottom:1.3rem">JPG, PNG, RAW · Jusqu'à 500 Mo par import</p>
+          <button class="btn-primary">Choisir les fichiers</button>
+        </div>
+        <div style="background:var(--dark);padding:1.4rem">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+            <div class="form-field"><label class="form-label">Album de destination</label><select class="form-input" style="cursor:pointer"><option>Mariage Aminata & Kouassi</option><option>Anniversaire Clément</option></select></div>
+            <div class="form-field"><label class="form-label">Optimisation</label><select class="form-input" style="cursor:pointer"><option>Haute qualité (original)</option><option>Web optimisé</option></select></div>
+            <div class="form-field"><label class="form-label">Filigrane</label><select class="form-input" style="cursor:pointer"><option>Sans filigrane</option><option>Filigrane Bertrand Photographie</option></select></div>
+            <div class="form-field"><label class="form-label">Organisation auto</label><select class="form-input" style="cursor:pointer"><option>Par date de prise de vue</option><option>Par ordre d'import</option></select></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div id="admin-stats" style="display:none">
+        <div style="margin-bottom:1.4rem"><h1 class="admin-title fd">Statistiques</h1></div>
+        <div class="stat-grid" style="margin-bottom:1.4rem">
+          <div class="stat-card"><div class="stat-value">2 847</div><div class="stat-label">Consultations ce mois</div></div>
+          <div class="stat-card"><div class="stat-value">1 284</div><div class="stat-label">Téléchargements</div></div>
+          <div class="stat-card"><div class="stat-value">94%</div><div class="stat-label">Satisfaction</div></div>
+          <div class="stat-card"><div class="stat-value">3,2 min</div><div class="stat-label">Temps moyen / visite</div></div>
+        </div>
+        <div style="background:var(--dark);padding:1.4rem">
+          <h3 style="font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1.2rem">Albums les plus vus</h3>
+          <div style="display:flex;flex-direction:column;gap:0.9rem">
+            <div><div style="display:flex;justify-content:space-between;font-size:0.83rem;margin-bottom:0.35rem"><span>Mariage Aminata & Kouassi</span><span style="color:var(--gold)">847 vues</span></div><div class="progress-bar"><div class="progress-fill" style="width:82%"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:0.83rem;margin-bottom:0.35rem"><span>Anniversaire Clément — 30 ans</span><span style="color:var(--gold)">542 vues</span></div><div class="progress-bar"><div class="progress-fill" style="width:52%"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:0.83rem;margin-bottom:0.35rem"><span>Baptême Pierre-Antoine</span><span style="color:var(--gold)">318 vues</span></div><div class="progress-bar"><div class="progress-fill" style="width:31%"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MESSAGES -->
+      <div id="admin-messages" style="display:none">
+        <div style="margin-bottom:1.4rem"><h1 class="admin-title fd">Messages <span style="font-size:1rem;color:var(--muted);font-family:'Inter',sans-serif;font-weight:300">(3 non lus)</span></h1></div>
+        <div style="display:flex;flex-direction:column;gap:0.5px;background:var(--border)">
+          <div style="background:var(--dark);padding:1.2rem;border-left:2px solid var(--gold);cursor:pointer"><div style="display:flex;justify-content:space-between"><div><p style="font-weight:500;font-size:0.88rem">Mariam Touré</p><p style="font-size:0.78rem;color:var(--gold)">Séance mariage — mars</p></div><span style="font-size:0.72rem;color:var(--muted)">Il y a 2h</span></div><p style="font-size:0.8rem;color:var(--muted);margin-top:0.45rem">Bonjour, je souhaite réserver une séance photo pour mon mariage prévu le 20 mars...</p><div style="display:flex;gap:0.5rem;margin-top:0.75rem"><button class="btn-primary" onclick="showToast('Réponse envoyée !')" style="font-size:0.72rem;padding:0.4rem 0.9rem">Répondre</button><button class="btn-outline" onclick="window.open('https://wa.me/2250779588952')" style="font-size:0.72rem;padding:0.4rem 0.9rem">💬 WhatsApp</button></div></div>
+          <div style="background:var(--dark);padding:1.2rem;cursor:pointer"><div style="display:flex;justify-content:space-between"><div><p style="font-weight:500;font-size:0.88rem">Jean-Marc Bley</p><p style="font-size:0.78rem;color:var(--muted)">Photos entreprise urgentes</p></div><span style="font-size:0.72rem;color:var(--muted)">Il y a 5h</span></div><p style="font-size:0.8rem;color:var(--muted);margin-top:0.45rem">Nous avons besoin de photos professionnelles pour nos nouveaux membres d'équipe...</p></div>
+          <div style="background:var(--dark);padding:1.2rem;cursor:pointer"><div style="display:flex;justify-content:space-between"><div><p style="font-weight:500;font-size:0.88rem">Hortense Gbagbo</p><p style="font-size:0.78rem;color:var(--muted)">Commande de tirages</p></div><span style="font-size:0.72rem;color:var(--muted)">Hier</span></div><p style="font-size:0.8rem;color:var(--muted);margin-top:0.45rem">Je souhaite commander des tirages en format A3 de mon album mariage...</p></div>
+        </div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div id="admin-settings" style="display:none">
+        <div style="margin-bottom:1.4rem"><h1 class="admin-title fd">Paramètres</h1></div>
+        <div style="background:var(--dark);padding:1.5rem;margin-bottom:1px">
+          <h3 style="font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem">Informations du studio</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+            <div class="form-field"><label class="form-label">Photographe</label><input class="form-input" value="Bertrand Kocoi"></div>
+            <div class="form-field"><label class="form-label">Studio</label><input class="form-input" value="Bertrand Photographie"></div>
+            <div class="form-field"><label class="form-label">Email</label><input class="form-input" value="Kycbertrand@yahoo.com"></div>
+            <div class="form-field"><label class="form-label">Téléphone 1</label><input class="form-input" value="+225 07 79 58 89 52"></div>
+            <div class="form-field"><label class="form-label">Téléphone 2</label><input class="form-input" value="+225 01 71 40 04 95"></div>
+            <div class="form-field"><label class="form-label">Ville</label><input class="form-input" value="Akoupe, Côte d'Ivoire"></div>
+          </div>
+          <button class="btn-primary" onclick="showToast('✓ Informations sauvegardées')" style="margin-top:1rem">Sauvegarder</button>
+        </div>
+        <div style="background:var(--dark);padding:1.5rem">
+          <h3 style="font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem">Sécurité</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+            <div class="form-field"><label class="form-label">Nouveau mot de passe</label><input class="form-input" type="password" placeholder="••••••••"></div>
+            <div class="form-field"><label class="form-label">Confirmer</label><input class="form-input" type="password" placeholder="••••••••"></div>
+          </div>
+          <button class="btn-outline" onclick="showToast('✓ Mot de passe modifié')" style="margin-top:1rem;font-size:0.78rem">Changer le mot de passe</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lb-close" onclick="closeLightbox()">✕ Fermer</button>
+  <button class="lb-nav lb-prev" onclick="event.stopPropagation()">←</button>
+  <div class="lb-img"><p id="lb-label" class="fd">Photo</p></div>
+  <button class="lb-nav lb-next" onclick="event.stopPropagation()">→</button>
+  <div class="lb-info">
+    <p class="fd" style="font-style:italic;font-size:1rem;color:var(--ivory)" id="lb-name">Bertrand Photographie</p>
+    <div class="lb-actions">
+      <button class="btn-outline" onclick="showToast('✓ Téléchargement...');event.stopPropagation()" style="font-size:0.76rem;padding:0.48rem 1.1rem">⬇ Télécharger</button>
+      <button class="btn-outline" onclick="shareAlbum();event.stopPropagation()" style="font-size:0.76rem;padding:0.48rem 1.1rem">↗ Partager</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span id="toast-msg"></span></div>
+
+<script>
+const albums=[
+  {id:'00247',name:'Mariage Aminata & Kouassi',client:'Aminata Coulibaly',photos:48,dl:127,status:'priv',exp:'14 jan 2025'},
+  {id:'00248',name:'Anniversaire Clément — 30 ans',client:'Clément Bognon',photos:32,dl:84,status:'pub',exp:'—'},
+  {id:'00249',name:'Baptême Pierre-Antoine',client:'Famille Daho',photos:65,dl:42,status:'priv',exp:'28 fév 2025'},
+  {id:'00250',name:'Shooting RH — BTCI',client:'BTCI Abidjan',photos:18,dl:31,status:'pass',exp:'—'},
+  {id:'00246',name:'Portrait Mme Ouattara',client:'Fatoumata Ouattara',photos:12,dl:8,status:'exp',exp:'30 jan 2025'},
+];
+const clients=[
+  {name:'Aminata Coulibaly',type:'Mariage',albums:1,tel:'+225 07 12 34 56 78'},
+  {name:'Clément Bognon',type:'Anniversaire',albums:1,tel:'+225 05 98 76 54 32'},
+  {name:'Famille Daho',type:'Baptême',albums:2,tel:'+225 01 23 45 67 89'},
+  {name:'BTCI Abidjan',type:'Entreprise',albums:3,tel:'+225 27 20 00 00 00'},
+  {name:'Fatoumata Ouattara',type:'Portrait',albums:1,tel:'+225 07 00 11 22 33'},
+];
+const testimonials=[
+  {q:'Les photos de notre mariage sont absolument magnifiques. Bertrand a su capturer chaque émotion avec une sensibilité rare. Nous recommandons sans hésitation !',a:'— Aminata & Kouassi, Mariage 2024'},
+  {q:'Un professionnel exceptionnel ! La séance portrait s\'est déroulée dans une atmosphère détendue et le résultat dépasse toutes nos attentes.',a:'— Fatoumata Ouattara, Portrait 2024'},
+  {q:'Bertrand a immortalisé le baptême de notre fils avec une touche artistique incroyable. Des souvenirs précieux pour toute la vie.',a:'— Famille Daho, Baptême 2024'},
+];
+const photoLabels=['Cérémonie','Échange des vœux','Les mariés','Famille','Cocktail','Danse','Portrait','Invités','Décoration','Coucher de soleil','Détails','Moments','Rires','Embrassade','Fleurs','Lumière'];
+
+let selMode=false,selCount=0;
+
+function navigate(page,anchor){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  window.scrollTo(0,0);
+  if(anchor)setTimeout(()=>{const el=document.getElementById(anchor);if(el)el.scrollIntoView({behavior:'smooth'})},100);
+  if(page==='album')buildPhotos();
+  if(page==='admin')buildAdmin();
+}
+function switchTab(t){
+  document.querySelectorAll('.access-tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.access-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelector('.access-tab[onclick*="\''+t+'\'"]').classList.add('active');
+  document.getElementById('tab-'+t).classList.add('active');
+}
+function setTesti(i){
+  document.getElementById('testi-text').textContent=testimonials[i].q;
+  document.getElementById('testi-author').textContent=testimonials[i].a;
+  document.querySelectorAll('.testi-dot').forEach((d,j)=>d.classList.toggle('active',j===i));
+}
+function buildPhotos(){
+  const g=document.getElementById('photos-grid');g.innerHTML='';
+  for(let i=0;i<48;i++){
+    const lbl=photoLabels[i%photoLabels.length];
+    const item=document.createElement('div');item.className='photo-item';
+    item.innerHTML=`<div class="photo-ph" style="background:hsl(${Math.floor(Math.random()*30)+20},${8+Math.random()*6}%,${10+Math.random()*7}%)"><p>${lbl}</p></div>
+    <div class="photo-overlay"><button class="photo-action" onclick="openLightbox('${lbl} — ${i+1}');event.stopPropagation()">🔍</button><button class="photo-action" onclick="showToast('✓ Téléchargement...');event.stopPropagation()">⬇</button></div>
+    <div class="photo-select" id="sel-${i}" onclick="togglePhoto(${i});event.stopPropagation()"></div>`;
+    item.onclick=()=>openLightbox(lbl+' — '+(i+1));
+    g.appendChild(item);
+  }
+}
+function toggleSelect(){selMode=!selMode;document.getElementById('select-btn').textContent=selMode?'✕ Annuler':'☑ Sélectionner';if(!selMode)clearSelection();}
+function togglePhoto(i){
+  if(!selMode){selMode=true;document.getElementById('select-btn').textContent='✕ Annuler';}
+  const el=document.getElementById('sel-'+i);const checked=el.classList.toggle('checked');el.textContent=checked?'✓':'';
+  selCount+=checked?1:-1;document.getElementById('dl-count').textContent=selCount;
+  document.getElementById('dl-bar').classList.toggle('visible',selCount>0);
+}
+function clearSelection(){selMode=false;selCount=0;document.querySelectorAll('.photo-select').forEach(el=>{el.classList.remove('checked');el.textContent='';});document.getElementById('dl-bar').classList.remove('visible');document.getElementById('select-btn').textContent='☑ Sélectionner';}
+function openLightbox(name){document.getElementById('lb-label').textContent=name;document.getElementById('lb-name').textContent='Mariage Aminata & Kouassi';document.getElementById('lightbox').classList.add('open');}
+function closeLightbox(e){if(!e||e.target===document.getElementById('lightbox'))document.getElementById('lightbox').classList.remove('open');}
+function shareAlbum(){showToast('✓ Lien copié — partagez sur WhatsApp !');}
+function showToast(msg){const t=document.getElementById('toast');document.getElementById('toast-msg').textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
+function badgeHtml(s){const m={pub:'badge-pub Pu­blic',priv:'badge-priv Privé',pass:'badge-pass Protégé',exp:'badge-exp Expiré'};const[cls,lbl]=(m[s]||'badge-priv Privé').split(' ');return`<span class="badge ${cls}">${lbl}</span>`;}
+function buildAdmin(){
+  const prev=document.getElementById('adm-prev');
+  if(prev)prev.innerHTML=albums.slice(0,4).map(a=>`<tr><td style="font-size:0.83rem">${a.name}</td><td style="color:var(--muted);font-size:0.8rem">${a.client}</td><td>${a.photos}</td><td>${a.dl}</td><td>${badgeHtml(a.status)}</td><td><button class="action-btn" onclick="showToast('Album ouvert')">✎</button><button class="action-btn">🔗</button></td></tr>`).join('');
+  const full=document.getElementById('adm-full');
+  if(full)full.innerHTML=albums.map(a=>`<tr><td style="font-size:0.83rem">${a.name}</td><td style="color:var(--muted);font-size:0.8rem">${a.client}</td><td>${a.photos}</td><td>${badgeHtml(a.status)}</td><td style="font-size:0.77rem;color:var(--muted)">${a.exp}</td><td>${a.dl}</td><td><button class="action-btn" onclick="showToast('Album modifié')">✎</button><button class="action-btn" onclick="showToast('Lien copié !')">🔗</button><button class="action-btn" onclick="showToast('Partagé WA')">💬</button><button class="action-btn" style="color:#c86060" onclick="showToast('Supprimé')">✕</button></td></tr>`).join('');
+  const cg=document.getElementById('clients-grid');
+  if(cg)cg.innerHTML=clients.map(c=>`<div style="background:var(--dark);padding:1.2rem"><div style="display:flex;align-items:center;gap:0.7rem;margin-bottom:0.7rem"><div style="width:34px;height:34px;background:rgba(201,168,76,0.1);border:0.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:0.78rem;color:var(--gold);font-weight:500">${c.name.split(' ').map(n=>n[0]).join('').slice(0,2)}</div><div><p style="font-size:0.86rem;font-weight:500">${c.name}</p><p style="font-size:0.73rem;color:var(--muted)">${c.type}</p></div></div><p style="font-size:0.77rem;color:var(--muted)">📁 ${c.albums} album(s) · ${c.tel}</p><div style="margin-top:0.6rem;display:flex;gap:0.4rem"><button class="action-btn" style="font-size:0.7rem;border:0.5px solid var(--border);padding:0.22rem 0.55rem" onclick="showToast('Albums de '+c.name)">Voir</button><button class="action-btn" onclick="showToast('Modifié')">✎</button></div></div>`).join('');
+}
+function adminSection(sec){
+  ['dashboard','albums','clients','upload','stats','messages','settings'].forEach(s=>{const el=document.getElementById('admin-'+s);if(el)el.style.display=s===sec?'block':'none';});
+  document.querySelectorAll('.admin-nav-item').forEach(b=>b.classList.remove('active'));
+  const map={dashboard:'Vue',albums:'Albums',clients:'Clients',upload:'Importer',stats:'Statistiques',messages:'Messages',settings:'Paramètres'};
+  document.querySelectorAll('.admin-nav-item').forEach(b=>{if(b.textContent.includes(map[sec]))b.classList.add('active');});
+}
+buildAdmin();
+</script>
+</body>
+</html>
